@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Make Payment - Study Resources</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    function handlePaymentConfirmation() {
+      localStorage.setItem("paid", "true");
+      window.location.href = "full_access.html";
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>💳 Payment</h1>
+    <p>Scan the QR code below to make your payment.</p>
+  </header>
+
+  <main style="text-align: center;">
+    <img src="assets/img/qr.png" alt="Scan to Pay" class="qr-img" />
+    <p>Amount: ₹99<br><strong>UPI: study@upi</strong></p>
+    <button class="button" onclick="confirmPayment()">I Have Paid</button>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Study Resources. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
+<script>
+  showPaymentButtonIfNeeded();
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reviews - Study Resources</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    function loadReviews() {
+      const reviewsContainer = document.getElementById("user-reviews");
+      const savedReviews = JSON.parse(localStorage.getItem("reviews")) || [];
+      reviewsContainer.innerHTML = "";
+
+      savedReviews.forEach(review => {
+        reviewsContainer.innerHTML += `
+          <div class="review">
+            <strong>${review.name}</strong> - ${"⭐".repeat(review.rating)}<br/>
+            <p>${review.comment}</p>
+          </div>
+        `;
+      });
+    }
+
+    function submitReview() {
+      const name = document.getElementById("name").value.trim();
+      const rating = document.getElementById("rating").value;
+      const comment = document.getElementById("comment").value.trim();
+
+      if (!name || !comment || !rating) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      const newReview = { name, rating: parseInt(rating), comment };
+      const existing = JSON.parse(localStorage.getItem("reviews")) || [];
+      existing.push(newReview);
+      localStorage.setItem("reviews", JSON.stringify(existing));
+      document.getElementById("review-form").reset();
+      loadReviews();
+    }
+
+    window.onload = loadReviews;
+  </script>
+</head>
+<body>
+  <header>
+    <h1>⭐ Student Reviews</h1>
+    <p>What others say about our study material:</p>
+  </header>
+
+  <main>
+    <!-- Static Fake Reviews -->
+    <section class="review-section">
+      <div class="review"><strong>Neha S.</strong> – ⭐⭐⭐⭐⭐<br/>“This PDF saved me before exams!”</div>
+      <div class="review"><strong>Rahul K.</strong> – ⭐⭐⭐⭐<br/>“Affordable and well explained.”</div>
+      <div class="review"><strong>Priya J.</strong> – ⭐⭐⭐⭐⭐<br/>“Much better than expensive coaching!”</div>
+    </section>
+
+    <hr/>
+
+    <!-- Dynamic User Reviews -->
+    <section>
+      <h3>Share Your Review</h3>
+      <form id="review-form" onsubmit="event.preventDefault(); submitReview();">
+        <input type="text" id="name" placeholder="Your Name" required /><br/>
+        <select id="rating" required>
+          <option value="">Rating</option>
+          <option value="5">5 - Excellent</option>
+          <option value="4">4 - Good</option>
+          <option value="3">3 - Average</option>
+          <option value="2">2 - Poor</option>
+          <option value="1">1 - Very Poor</option>
+        </select><br/>
+        <textarea id="comment" rows="4" placeholder="Your review..." required></textarea><br/>
+        <button type="submit" class="button">Submit Review</button>
+      </form>
+
+      <h3 style="margin-top: 30px;">Latest Reviews:</h3>
+      <div id="user-reviews" class="review-section"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Study Resources. All rights reserved.</p>
+  </footer>
+</body>
+</html>
